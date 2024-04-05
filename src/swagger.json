@@ -1,0 +1,588 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "My Brand API",
+      "version": "1.0.0",
+      "description": "API documentation for My Brand application"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Local server"
+      }
+    ],
+    "components": {
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        }
+      },
+    "paths": {
+      "/api/users/signup": {
+        "post": {
+          "summary": "Sign up a new user",
+          "tags": ["User-Authentication"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": { "type": "string" },
+                    "lastName": { "type": "string" },
+                    "email": { "type": "string" },
+                    "password": { "type": "string" }
+                  },
+                  "required": ["firstName", "lastName", "email", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User signed up successfully"
+            }
+          }
+        }
+      },
+      "/api/users/signin": {
+        "post": {
+          "summary": "Sign in a user",
+          "tags": ["User-Authentication"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": { "type": "string" },
+                    "password": { "type": "string" }
+                  },
+                  "required": ["email", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User signed in successfully"
+            }
+          }
+        }
+      },
+      "/api/users/{userId}": {
+        "delete": {
+          "summary": "Delete a user by ID",
+          "tags": ["User-Authentication"],
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "description": "ID of the user to delete",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User deleted successfully"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a user by ID",
+          "tags": ["User-Authentication"],
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "description": "ID of the user to update",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": { "type": "string" },
+                    "lastName": { "type": "string" },
+                    "email": { "type": "string" },
+                    "password": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User updated successfully"
+            }
+          }}
+        },
+        "/api/users": {
+            "get": {
+              "summary": "Get all users",
+              "tags": ["User-Authentication"],
+              "responses": {
+                "200": {
+                  "description": "Users retrieved successfully"
+                }
+              }
+            }
+        
+      },
+      "/api/admin/signup": {
+        "post": {
+          "summary": "Sign up a new admin",
+          "tags": ["Admin-Authentication"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": { "type": "string" },
+                    "email": { "type": "string" },
+                    "password": { "type": "string" }
+                  },
+                  "required": ["username", "email", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Admin signed up successfully"
+            }
+          }
+        }
+      },
+      "/api/admin/signin": {
+        "post": {
+          "summary": "Sign in an admin",
+          "tags": ["Admin-Authentication"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": { "type": "string" },
+                    "password": { "type": "string" }
+                  },
+                  "required": ["email", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Admin signed in successfully"
+            }
+          }
+        }
+      },
+      "/api/admin/{adminId}": {
+        "put": {
+          "summary": "Update an admin by ID",
+          "tags": ["Admin-Authentication"],
+          "parameters": [
+            {
+              "name": "adminId",
+              "in": "path",
+              "required": true,
+              "description": "ID of the admin to update",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": { "type": "string" },
+                    "email": { "type": "string" },
+                    "password": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Admin updated successfully"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete an admin by ID",
+          "tags": ["Admin-Authentication"],
+          "parameters": [
+            {
+              "name": "adminId",
+              "in": "path",
+              "required": true,
+              "description": "ID of the admin to delete",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Admin deleted successfully"
+            }
+          }
+        }
+      },
+      "/api/admins": {
+        "get": {
+          "summary": "Get all admins",
+          "tags": ["Admin-Authentication"],
+          "responses": {
+            "200": {
+              "description": "Admins retrieved successfully"
+            }
+          }
+        }
+      },
+      "/api/messages": {
+        "post": {
+          "summary": "Create a new message",
+          "tags": ["Contact-Message"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": { "type": "string" },
+                    "email": { "type": "string" },
+                    "message": { "type": "string" },
+                    "date": { "type": "string", "format": "date" },
+                    "hour": { "type": "string", "format": "time" }
+                  },
+                  "required": ["username", "email", "message", "date", "hour"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Message created successfully"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get all messages",
+          "tags": ["Contact-Message"],
+          "responses": {
+            "200": {
+              "description": "Messages retrieved successfully"
+            }
+          }
+        }
+      },
+      "/api/messages/{messageId}": {
+        "put": {
+          "summary": "Update a message by ID",
+          "tags": ["Contact-Message"],
+          "parameters": [
+            {
+              "name": "messageId",
+              "in": "path",
+              "required": true,
+              "description": "ID of the message to update",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": { "type": "string" },
+                    "email": { "type": "string" },
+                    "message": { "type": "string" },
+                    "date": { "type": "string", "format": "date" },
+                    "hour": { "type": "string", "format": "time" }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Message updated successfully"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a message by ID",
+          "tags": ["Contact-Message"],
+          "parameters": [
+            {
+              "name": "messageId",
+              "in": "path",
+              "required": true,
+              "description": "ID of the message to delete",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Message deleted successfully"
+            }
+          }
+        }
+      },
+      "/api/blogs": {
+        "post": {
+          "tags": ["Blogs"],
+          "summary": "Create a new blog",
+          "operationId": "createBlog",
+          "responses": {
+            "201": {
+              "description": "Blog created successfully"
+            }
+          }
+        },
+        "get": {
+          "tags": ["Blogs"],
+          "summary": "Get all blogs",
+          "operationId": "getAllBlogs",
+          "responses": {
+            "200": {
+              "description": "List of blogs"
+            }
+          }
+        }
+      },
+      "/api/blogs/{id}": {
+        "put": {
+          "tags": ["Blogs"],
+          "summary": "Update an existing blog",
+          "operationId": "updateBlog",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the blog to update",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Updated blog"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Blogs"],
+          "summary": "Delete a blog",
+          "operationId": "deleteBlog",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the blog to delete",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Blog deleted successfully"
+            }
+          }
+        },
+        "get": {
+          "tags": ["Blogs"],
+          "summary": "Get a blog by ID",
+          "operationId": "getBlogById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the blog to retrieve",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Blog found"
+            }
+          }
+        }
+      },
+      "/api/blogs/{id}/like": {
+        "post": {
+          "tags": ["Blog-Likes & Dislikes"],
+          "summary": "Like a blog",
+          "operationId": "likeBlog",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the blog to like",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Blog liked successfully"
+            }
+          }
+        }
+      },
+      "/api/blogs/{id}/dislike": {
+        "post": {
+          "tags": ["Blog-Likes & Dislikes"],
+          "summary": "Dislike a blog",
+          "operationId": "dislikeBlog",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the blog to dislike",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Blog disliked successfully"
+            }
+          }
+        }
+      },
+      "/api/blogs/{id}/comments": {
+        "post": {
+          "tags": ["Blog-Comments"],
+          "summary": "Create a new comment on a blog",
+          "operationId": "createComment",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the blog to comment on",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Comment added successfully"
+            }
+          }
+        },
+        "get": {
+          "tags": ["Blog-Comments"],
+          "summary": "Get all comments for a blog",
+          "operationId": "getCommentsForBlog",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the blog to get comments for",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of comments"
+            }
+          }
+        }
+      },
+      "/api/comments": {
+        "get": {
+          "tags": ["Blog-Comments"],
+          "summary": "Get all comments",
+          "operationId": "getAllComments",
+          "responses": {
+            "200": {
+              "description": "List of comments"
+            }
+          }
+        }
+      },
+      "/api/blogs/{blogId}/comments/{commentId}": {
+        "delete": {
+          "tags": ["Blog-Comments"],
+          "summary": "Delete a comment from a blog",
+          "operationId": "deleteComment",
+          "parameters": [
+            {
+              "name": "blogId",
+              "in": "path",
+              "required": true,
+              "description": "ID of the blog from which to delete the comment",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "commentId",
+              "in": "path",
+              "required": true,
+              "description": "ID of the comment to delete",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Comment deleted successfully"
+            }
+          }
+        }
+      }
+    }}
+  
+  
