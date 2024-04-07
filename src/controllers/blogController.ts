@@ -145,11 +145,13 @@ export const getAllBlogs = async (req: Request, res: Response) => {
 export const getAllComments = async (req: Request, res: Response) => {
   try {
     const blogs = await BlogPost.find();
-    const allComments: IComment[] = [];
-    blogs.forEach((blog: IBlogPost) => {
-      allComments.push(...blog.comments);
-    });
-    res.status(200).json(allComments);
+    const blogsWithComments = blogs.map(blog => ({
+      Blog_id: blog._id,
+     Blog_title: blog.title,
+      Blog_description: blog.description,
+      Blog_comments: blog.comments
+    }));
+    res.status(200).json(blogsWithComments);
   } catch (error) {
     console.error('Error getting all comments:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -164,11 +166,10 @@ export const deleteComment = async (req: Request, res: Response) => {
     if (!updatedBlog) {
       return res.status(404).json({ message: 'Blog not found' });
     }
-    res.status(200).json(updatedBlog);
+    res.status(200).json({ message: 'Comment deleted successfully', updatedBlog });
   } catch (error) {
     console.error('Error deleting comment:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
   

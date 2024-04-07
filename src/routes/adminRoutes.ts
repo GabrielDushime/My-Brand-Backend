@@ -3,11 +3,10 @@ import { adminSignup, adminSignin, updateAdmin, deleteAdmin, getAllAdmins } from
 
 const adminRoutes = express.Router();
 
-
-adminRoutes.post('/api/admin/signup', adminSignup);
-adminRoutes.post('/api/admin/signin', adminSignin);
-adminRoutes.put('/api/admin/:adminId', updateAdmin);
-adminRoutes.delete('/api/admin/:adminId', deleteAdmin);
-adminRoutes.get('/api/admins', getAllAdmins);
+adminRoutes.post('/signup', adminSignup);
+adminRoutes.post('/signin', adminSignin);
+adminRoutes.put('/:adminId', updateAdmin);
+adminRoutes.delete('/:adminId', deleteAdmin);
+adminRoutes.get('/', getAllAdmins);
 
 export default adminRoutes;

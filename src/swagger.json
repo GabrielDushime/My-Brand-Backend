@@ -8,7 +8,7 @@
     "servers": [
       {
         "url": "http://localhost:3000",
-        "description": "Local server"
+        "description": "Gabriel's Brand server"
       }
     ],
     "components": {
@@ -20,9 +20,12 @@
           }
         }
       },
+    
     "paths": {
-      "/api/users/signup": {
+        
+      "/api/user/signup": {
         "post": {
+            
           "summary": "Sign up a new user",
           "tags": ["User-Authentication"],
           "requestBody": {
@@ -35,9 +38,10 @@
                     "firstName": { "type": "string" },
                     "lastName": { "type": "string" },
                     "email": { "type": "string" },
-                    "password": { "type": "string" }
+                    "password": { "type": "string" },
+                    "confirmPassword":{"type":"string"}
                   },
-                  "required": ["firstName", "lastName", "email", "password"]
+                  "required": ["firstName", "lastName", "email", "password","confirmPassword"]
                 }
               }
             }
@@ -49,7 +53,7 @@
           }
         }
       },
-      "/api/users/signin": {
+      "/api/user/signin": {
         "post": {
           "summary": "Sign in a user",
           "tags": ["User-Authentication"],
@@ -75,7 +79,7 @@
           }
         }
       },
-      "/api/users/{userId}": {
+      "/api/user/{userId}": {
         "delete": {
           "summary": "Delete a user by ID",
           "tags": ["User-Authentication"],
@@ -121,6 +125,7 @@
                     "lastName": { "type": "string" },
                     "email": { "type": "string" },
                     "password": { "type": "string" }
+                
                   }
                 }
               }
@@ -132,7 +137,7 @@
             }
           }}
         },
-        "/api/users": {
+        "/api/user": {
             "get": {
               "summary": "Get all users",
               "tags": ["User-Authentication"],
@@ -254,7 +259,7 @@
           }
         }
       },
-      "/api/admins": {
+      "/api/admin": {
         "get": {
           "summary": "Get all admins",
           "tags": ["Admin-Authentication"],
@@ -265,7 +270,7 @@
           }
         }
       },
-      "/api/messages": {
+      "/api/message": {
         "post": {
           "summary": "Create a new message",
           "tags": ["Contact-Message"],
@@ -303,7 +308,7 @@
           }
         }
       },
-      "/api/messages/{messageId}": {
+      "/api/message/{messageId}": {
         "put": {
           "summary": "Update a message by ID",
           "tags": ["Contact-Message"],
@@ -362,17 +367,47 @@
           }
         }
       },
-      "/api/blogs": {
+      "/api/blog": {
         "post": {
           "tags": ["Blogs"],
           "summary": "Create a new blog",
           "operationId": "createBlog",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "description": "Title of the blog",
+                      "example": "Sample Title"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Description of the blog",
+                      "example": "This is a sample description"
+                    },
+                    "image": {
+                      "type": "string",
+                      "description": "URL of the blog image",
+                      "example": "https://example.com/image.jpg"
+                    }
+                  },
+                  "required": ["title", "description", "image"]
+                }
+              }
+            }
+          },
           "responses": {
             "201": {
               "description": "Blog created successfully"
             }
           }
         },
+      
+      
         "get": {
           "tags": ["Blogs"],
           "summary": "Get all blogs",
@@ -384,7 +419,7 @@
           }
         }
       },
-      "/api/blogs/{id}": {
+      "/api/blog/{id}": {
         "put": {
           "tags": ["Blogs"],
           "summary": "Update an existing blog",
@@ -400,33 +435,41 @@
               }
             }
           ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "description": "New title of the blog"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "New description of the blog"
+                    },
+                    "image": {
+                      "type": "string",
+                      "description": "New image URL of the blog"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "responses": {
             "200": {
               "description": "Updated blog"
+            },
+            "404": {
+              "description": "Blog not found"
             }
           }
-        },
-        "delete": {
-          "tags": ["Blogs"],
-          "summary": "Delete a blog",
-          "operationId": "deleteBlog",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "description": "ID of the blog to delete",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Blog deleted successfully"
-            }
-          }
-        },
+        
+      },
+      
         "get": {
           "tags": ["Blogs"],
           "summary": "Get a blog by ID",
@@ -449,7 +492,7 @@
           }
         }
       },
-      "/api/blogs/{id}/like": {
+      "/api/blog/{id}/like": {
         "post": {
           "tags": ["Blog-Likes & Dislikes"],
           "summary": "Like a blog",
@@ -472,7 +515,7 @@
           }
         }
       },
-      "/api/blogs/{id}/dislike": {
+      "/api/blog/{id}/dislike": {
         "post": {
           "tags": ["Blog-Likes & Dislikes"],
           "summary": "Dislike a blog",
@@ -495,7 +538,7 @@
           }
         }
       },
-      "/api/blogs/{id}/comments": {
+      "/api/blog/{id}/comments": {
         "post": {
           "tags": ["Blog-Comments"],
           "summary": "Create a new comment on a blog",
@@ -511,12 +554,42 @@
               }
             }
           ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fullName": {
+                      "type": "string",
+                      "description": "Full name of the commenter"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the commenter"
+                    },
+                    "comment": {
+                      "type": "string",
+                      "description": "Comment text"
+                    }
+                  },
+                  "required": ["fullName", "email", "comment"]
+                }
+              }
+            }
+          },
           "responses": {
             "200": {
               "description": "Comment added successfully"
+            },
+            "404": {
+              "description": "Blog not found"
             }
           }
-        },
+        
+      },
+      
         "get": {
           "tags": ["Blog-Comments"],
           "summary": "Get all comments for a blog",
@@ -551,7 +624,8 @@
           }
         }
       },
-      "/api/blogs/{blogId}/comments/{commentId}": {
+      
+      "/api/blog/{blogId}/comments/{commentId}": {
         "delete": {
           "tags": ["Blog-Comments"],
           "summary": "Delete a comment from a blog",
