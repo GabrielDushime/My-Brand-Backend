@@ -17,7 +17,7 @@ const app = express();
 
 
 // Database connection
-mongoose.connect('mongodb://localhost:27017/My-Brand-Backend');
+mongoose.connect(process.env.database_connection as string);
 
 const db = mongoose.connection;
 db.once('open', async () => { 
