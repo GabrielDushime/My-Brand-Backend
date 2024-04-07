@@ -27,7 +27,7 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 // Database connection
-mongoose_1.default.connect('mongodb://localhost:27017/My-Brand-Backend');
+mongoose_1.default.connect(process.env.database_connection);
 const db = mongoose_1.default.connection;
 db.once('open', () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Connected to MongoDB');
