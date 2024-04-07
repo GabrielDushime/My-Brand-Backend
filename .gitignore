@@ -4,8 +4,7 @@ node_modules/
 # Environment variables file
 .env
 
-# Build output
-dist/
+
 
 # IDE or editor files
 .vscode/
