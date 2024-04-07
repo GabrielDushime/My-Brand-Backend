@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import userRoutes from './routes/userRoutes';
 import swaggerUi from 'swagger-ui-express';
@@ -7,23 +7,27 @@ import adminRoutes from './routes/adminRoutes';
 import messageRoutes from './routes/messageRoutes';
 import blogRoutes from './routes/blogRoutes';
 import { getAllComments } from './controllers/blogController';
-import { createMasterAdmin } from './controllers/adminController'; // Import the createMasterAdmin function
+import { createMasterAdmin } from './controllers/adminController';
 import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
 
-app.use(express.json());
+
+
 
 // Database connection
 mongoose.connect('mongodb://localhost:27017/My-Brand-Backend');
 
 const db = mongoose.connection;
-
-db.once('open', async () => { // Call createMasterAdmin once the database connection is open
+db.once('open', async () => { 
   console.log('Connected to MongoDB');
-  await createMasterAdmin(); // Call the function here
+  await createMasterAdmin(); 
 });
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
+
 
 db.on('error', (err) => {
   console.error('MongoDB connection error:', err);
@@ -47,3 +51,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+export default app;
