@@ -15,7 +15,7 @@ const userSchema = Joi.object({
   lastName: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
-  confirmPassword: Joi.string().valid(Joi.ref('password')).required()
+ 
 });
 
 const userMongoSchema: Schema = new Schema({
@@ -23,7 +23,7 @@ const userMongoSchema: Schema = new Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  confirmPassword: { type: String, required: true }
+
 });
 
 // Validate data before saving to database

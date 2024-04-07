@@ -43,14 +43,12 @@ const userSchema = joi_1.default.object({
     lastName: joi_1.default.string().required(),
     email: joi_1.default.string().email().required(),
     password: joi_1.default.string().required(),
-    confirmPassword: joi_1.default.string().valid(joi_1.default.ref('password')).required()
 });
 const userMongoSchema = new mongoose_1.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    confirmPassword: { type: String, required: true }
 });
 // Validate data before saving to database
 userMongoSchema.pre('save', function (next) {
