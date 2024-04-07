@@ -52,7 +52,8 @@ export const adminSignin = async (req: Request, res: Response) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ email: admin.email }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+    const jwtSecret: string = process.env.JWT_SECRET || 'default_secret';
+    const token = jwt.sign({ email: admin.email }, jwtSecret, { expiresIn: '1h' });
 
     res.status(200).json({ token });
   } catch (error) {
@@ -60,6 +61,7 @@ export const adminSignin = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 export const updateAdmin = async (req: Request, res: Response) => {
   try {
@@ -102,4 +104,38 @@ export const getAllAdmins = async (req: Request, res: Response) => {
   }
 };
 
+
+export const createMasterAdmin = async () => {
+  try {
+    // Check if master admin already exists
+    const existingAdmin = await Admin.findOne({ email: process.env.MASTER_ADMIN_EMAIL });
+    if (existingAdmin) {
+      console.log('Master Admin Saved to the Database.');
+      return;
+    }
+
+    // Check if MASTER_ADMIN_PASSWORD environment variable is set
+    if (!process.env.MASTER_ADMIN_PASSWORD) {
+      console.error('MASTER_ADMIN_PASSWORD environment variable is not set.');
+      return;
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(process.env.MASTER_ADMIN_PASSWORD, 8);
+
+    // Create the master admin object
+    const masterAdmin = new Admin({
+      username: process.env.MASTER_ADMIN_USERNAME,
+      email: process.env.MASTER_ADMIN_EMAIL,
+      password: hashedPassword
+    });
+
+    // Save the master admin to the database
+    await masterAdmin.save();
+
+    console.log('Master admin created successfully.');
+  } catch (error) {
+    console.error('Error creating master admin:', error);
+  }
+};
 
