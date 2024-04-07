@@ -283,11 +283,10 @@
                   "properties": {
                     "username": { "type": "string" },
                     "email": { "type": "string" },
-                    "message": { "type": "string" },
-                    "date": { "type": "string", "format": "date" },
-                    "hour": { "type": "string", "format": "time" }
+                    "message": { "type": "string" }
+                    
                   },
-                  "required": ["username", "email", "message", "date", "hour"]
+                  "required": ["username", "email", "message"]
                 }
               }
             }
