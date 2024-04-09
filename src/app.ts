@@ -31,7 +31,7 @@ db.on('error', (err) => {
 
 // Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-// Serve Swagger UI
+
 
 // Routes
 app.use('/api/user', userRoutes);
