@@ -22,10 +22,8 @@
       },
     
     "paths": {
-        
       "/api/user/signup": {
         "post": {
-            
           "summary": "Sign up a new user",
           "tags": ["User-Authentication"],
           "requestBody": {
@@ -39,7 +37,7 @@
                     "lastName": { "type": "string" },
                     "email": { "type": "string" },
                     "password": { "type": "string" },
-                    "confirmPassword":{"type":"string"}
+                    "confirmPassword": { "type": "string" }
                   },
                   "required": ["firstName", "lastName", "email", "password","confirmPassword"]
                 }
@@ -47,12 +45,19 @@
             }
           },
           "responses": {
-            "200": {
+            "201": {
               "description": "User signed up successfully"
+            },
+            "400": {
+              "description": "Bad request - invalid input data"
+            },
+            "500": {
+              "description": "Internal server error"
             }
           }
         }
       },
+      
       "/api/user/signin": {
         "post": {
           "summary": "Sign in a user",
@@ -81,6 +86,11 @@
       },
       "/api/user/{userId}": {
         "delete": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "summary": "Delete a user by ID",
           "tags": ["User-Authentication"],
           "parameters": [
@@ -101,6 +111,11 @@
           }
         },
         "put": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "summary": "Update a user by ID",
           "tags": ["User-Authentication"],
           "parameters": [
@@ -139,6 +154,11 @@
         },
         "/api/user": {
             "get": {
+              "security": [
+                {
+                  "BearerAuth": []
+                }
+              ],
               "summary": "Get all users",
               "tags": ["User-Authentication"],
               "responses": {
@@ -151,6 +171,11 @@
       },
       "/api/admin/signup": {
         "post": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "summary": "Sign up a new admin",
           "tags": ["Admin-Authentication"],
           "requestBody": {
@@ -204,6 +229,11 @@
       },
       "/api/admin/{adminId}": {
         "put": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "summary": "Update an admin by ID",
           "tags": ["Admin-Authentication"],
           "parameters": [
@@ -239,6 +269,11 @@
           }
         },
         "delete": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "summary": "Delete an admin by ID",
           "tags": ["Admin-Authentication"],
           "parameters": [
@@ -261,6 +296,11 @@
       },
       "/api/admin": {
         "get": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "summary": "Get all admins",
           "tags": ["Admin-Authentication"],
           "responses": {
@@ -298,6 +338,11 @@
           }
         },
         "get": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "summary": "Get all messages",
           "tags": ["Contact-Message"],
           "responses": {
@@ -308,7 +353,13 @@
         }
       },
       "/api/message/{messageId}": {
+        
         "put": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "summary": "Update a message by ID",
           "tags": ["Contact-Message"],
           "parameters": [
@@ -331,9 +382,8 @@
                   "properties": {
                     "username": { "type": "string" },
                     "email": { "type": "string" },
-                    "message": { "type": "string" },
-                    "date": { "type": "string", "format": "date" },
-                    "hour": { "type": "string", "format": "time" }
+                    "message": { "type": "string" }
+                    
                   }
                 }
               }
@@ -346,6 +396,11 @@
           }
         },
         "delete": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "summary": "Delete a message by ID",
           "tags": ["Contact-Message"],
           "parameters": [
@@ -368,6 +423,11 @@
       },
       "/api/blog": {
         "post": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "tags": ["Blogs"],
           "summary": "Create a new blog",
           "operationId": "createBlog",
@@ -420,6 +480,11 @@
       },
       "/api/blog/{id}": {
         "put": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "tags": ["Blogs"],
           "summary": "Update an existing blog",
           "operationId": "updateBlog",
@@ -458,6 +523,7 @@
               }
             }
           },
+          
           "responses": {
             "200": {
               "description": "Updated blog"
@@ -468,7 +534,38 @@
           }
         
       },
-      
+      "delete": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": ["Blogs"],
+        "summary": "Delete a blog",
+        "operationId": "deleteBlog",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the blog to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog deleted successfully"
+          },
+          "404": {
+            "description": "Blog not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
         "get": {
           "tags": ["Blogs"],
           "summary": "Get a blog by ID",
@@ -613,6 +710,11 @@
       },
       "/api/comments": {
         "get": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "tags": ["Blog-Comments"],
           "summary": "Get all comments",
           "operationId": "getAllComments",
@@ -626,6 +728,11 @@
       
       "/api/blog/{blogId}/comments/{commentId}": {
         "delete": {
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "tags": ["Blog-Comments"],
           "summary": "Delete a comment from a blog",
           "operationId": "deleteComment",

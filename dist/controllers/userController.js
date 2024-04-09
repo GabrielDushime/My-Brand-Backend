@@ -29,7 +29,7 @@ const userSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return res.status(400).json({ message: 'Email already exists' });
         }
         const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
-        const user = new User_1.default({ firstName, lastName, email, password: hashedPassword, });
+        const user = new User_1.default({ firstName, lastName, email, password: hashedPassword });
         yield user.save();
         res.status(201).json({ message: 'User created successfully' });
     }
