@@ -3,7 +3,7 @@
     "info": {
       "title": "My Brand-Backend API Gabriel's Portifolio",
       "version": "1.0.0",
-      "description": "API documentation for My Brand application(Gabriel's Portifolio)"
+      "description": "API documentation for My Brand application(Gabriel's Portifolios)"
     },
     
     "servers": [
