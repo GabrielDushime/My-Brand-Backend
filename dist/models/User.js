@@ -22,46 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+// src/models/User.ts
 const mongoose_1 = __importStar(require("mongoose"));
-const joi_1 = __importDefault(require("joi"));
-// Joi schema for user model validation
-const userSchema = joi_1.default.object({
-    firstName: joi_1.default.string().required(),
-    lastName: joi_1.default.string().required(),
-    email: joi_1.default.string().email().required(),
-    password: joi_1.default.string().required(),
-});
-const userMongoSchema = new mongoose_1.Schema({
+const userSchema = new mongoose_1.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
 });
-// Validate data before saving to database
-userMongoSchema.pre('save', function (next) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield userSchema.validateAsync(this.toObject());
-            next();
-        }
-        catch (error) {
-            next(error);
-        }
-    });
-});
-const User = mongoose_1.default.model('User', userMongoSchema);
+const User = mongoose_1.default.model('User', userSchema);
 exports.default = User;
 //# sourceMappingURL=User.js.map

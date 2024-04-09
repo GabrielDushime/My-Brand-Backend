@@ -1,18 +1,19 @@
 {
-  "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "declaration": false,
-    "emitDecoratorMetadata": false,
-    "experimentalDecorators": false
-  },
-  "include": ["src/**/*.ts", "src/app.ts"],
-  "exclude": ["node_modules", "dist"]
-}
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "sourceMap": true,
+      "resolveJsonModule": true,
+      "declaration": false,
+      "emitDecoratorMetadata": false,
+      "experimentalDecorators": false,
+      "types": ["node", "jest"]
+    },
+    "include": ["src/**/*.ts", "src/app.ts"],
+    "exclude": ["node_modules", "dist"]
+  }
