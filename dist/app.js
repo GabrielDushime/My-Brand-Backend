@@ -37,7 +37,6 @@ db.on('error', (err) => {
 });
 // Serve Swagger UI
 app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
-// Serve Swagger UI
 // Routes
 app.use('/api/user', userRoutes_1.default);
 app.use('/api/admin', adminRoutes_1.default);
