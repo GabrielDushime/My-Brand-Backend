@@ -1,9 +1,9 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "My Brand API",
+        "title": "My Brand-Backend API Gabriel's Portifolio",
         "version": "1.0.0",
-        "description": "API documentation for My Brand application"
+        "description": "API documentation for My Brand application(Gabriel's Portifolios)"
     },
     "servers": [
         {
