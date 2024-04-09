@@ -26,25 +26,24 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-// Database connection
 mongoose_1.default.connect(process.env.database_connection);
 const db = mongoose_1.default.connection;
 db.once('open', () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Connected to MongoDB');
-    yield (0, adminController_1.createMasterAdmin)(); // Call the function here
+    yield (0, adminController_1.createMasterAdmin)();
 }));
 db.on('error', (err) => {
     console.error('MongoDB connection error:', err);
 });
 // Serve Swagger UI
 app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
+// Serve Swagger UI
 // Routes
 app.use('/api/user', userRoutes_1.default);
 app.use('/api/admin', adminRoutes_1.default);
 app.use('/api/message', messageRoutes_1.default);
 app.use('/api/blog', blogRoutes_1.default);
 app.get('/api/comments', blogController_1.getAllComments);
-// Define route handler for the root URL
 app.get('/', (req, res) => {
     res.send('Welcome to my Brand Gabriel!');
 });
