@@ -5,9 +5,10 @@
       "version": "1.0.0",
       "description": "API documentation for My Brand application"
     },
+    
     "servers": [
       {
-        "url": "http://localhost:3000",
+        "url": "https://my-brand-backend-heoy.onrender.com",
         "description": "Gabriel's Brand server"
       }
     ],
