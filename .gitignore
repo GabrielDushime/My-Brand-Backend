@@ -8,10 +8,4 @@ coverage/
 
 
 
-# IDE or editor files
-.vscode/
-.idea/
-# Logs
-logs/
-*.log
 
