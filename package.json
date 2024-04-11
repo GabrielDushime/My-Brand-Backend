@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.ts",
-  "build": "tsc",
+  
   "scripts": {
     "test": "jest",
     "dev": "nodemon app.ts",
     "watch:compile": "tsc -w",
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
