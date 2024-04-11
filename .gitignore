@@ -2,6 +2,7 @@
 node_modules/
 /coverage
 
+/My-Brand-Backend
 
 # Environment variables file
 .env
