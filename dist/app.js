@@ -21,7 +21,7 @@ const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
 const messageRoutes_1 = __importDefault(require("./routes/messageRoutes"));
 const blogRoutes_1 = __importDefault(require("./routes/blogRoutes"));
 const blogController_1 = require("./controllers/blogController");
-const adminController_1 = require("./controllers/adminController"); // Import the createMasterAdmin function
+const adminController_1 = require("./controllers/adminController");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();

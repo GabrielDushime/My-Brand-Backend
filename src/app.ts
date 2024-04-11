@@ -7,7 +7,7 @@ import adminRoutes from './routes/adminRoutes';
 import messageRoutes from './routes/messageRoutes';
 import blogRoutes from './routes/blogRoutes';
 import { getAllComments } from './controllers/blogController';
-import { createMasterAdmin } from './controllers/adminController'; // Import the createMasterAdmin function
+import { createMasterAdmin } from './controllers/adminController'; 
 import dotenv from 'dotenv';
 dotenv.config();
 
