@@ -27,10 +27,4 @@ jobs:
 
     
 
-      - name: Deploy to Render
-        run: |
-          render deploy \
-            --name https://my-brand-backend-heoy.onrender.com \
-            --build-command "npm run build" \
-            --start-command "npm start" \
-            --wait
+      
