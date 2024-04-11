@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: my-brand-backend
 
 on:
   push:
@@ -10,6 +10,14 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Dockerize
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+          tags: your-docker-image-name:latest
+          file: Dockerfile
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -22,13 +30,15 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: tsc
 
-
-      - name: Deploy
-        run: |
       - name: Test
         run: npm test
 
-      
-          # Add your deployment commands here
+      - name: Deploy to Render
+        run: |
+          render deploy \
+            --name my-brand-backend \
+            --build-command "tsc" \
+            --start-command "npm start" \
+            --wait
