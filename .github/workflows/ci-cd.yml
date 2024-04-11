@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: tsc
+        run: npm run build
 
       - name: Test
         run: npm test
@@ -31,7 +31,7 @@ jobs:
       - name: Deploy to Render
         run: |
           render deploy \
-            --name my-brand-backend \
-            --build-command "tsc" \
+            --name https://my-brand-backend-heoy.onrender.com \
+            --build-command "npm run build" \
             --start-command "npm start" \
             --wait
