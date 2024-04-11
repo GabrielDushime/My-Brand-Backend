@@ -24,9 +24,11 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test
-        run: npm test
 
       - name: Deploy
         run: |
+      - name: Test
+        run: npm test
+
+      
           # Add your deployment commands here
