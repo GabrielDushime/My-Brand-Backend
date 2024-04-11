@@ -25,12 +25,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: setting environment variable
-        run: |
-          --echo "JWT_SECRET=${{secrets.JWT_SECRET}}" >> $GITHUB_ENV
-          --echo "RESET=${{secrets.RESET}}" >> $GITHUB_ENV
-          --echo "TOKEN_EXPIRE=${{secrets.TOKEN_EXPIRE}}" >> $GITHUB_ENV
-          -- echo "RESETEXP=${{secrets.RESETEXP}}" >> $GITHUB_ENV
+
 
       - name: Deploy to Render
         run: |
