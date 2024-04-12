@@ -6,7 +6,7 @@ import Message, { IMessage } from '../models/Message';
 export const createMessage = async (req: Request, res: Response) => {
   try {
     const { username, email, message } = req.body;
-
+    console.log('Received data:', req.body);
     const newMessage: IMessage = new Message({
       username,
       email,
