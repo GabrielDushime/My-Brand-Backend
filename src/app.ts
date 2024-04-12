@@ -21,9 +21,10 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: 'https://my-brand-gabriels-portifolio.netlify.app' 
+  origin: 'https://my-brand-gabriels-portifolio.netlify.app', 
+  methods: ['GET', 'POST'], 
+  allowedHeaders: ['Content-Type'], 
 }));
-
 
 mongoose.connect(process.env.database_connection as string);
 
