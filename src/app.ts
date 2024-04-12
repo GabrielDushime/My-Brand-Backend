@@ -9,11 +9,14 @@ import blogRoutes from './routes/blogRoutes';
 import { getAllComments } from './controllers/blogController';
 import { createMasterAdmin } from './controllers/adminController'; 
 import dotenv from 'dotenv';
+import cors from 'cors';
+
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 
 mongoose.connect(process.env.database_connection as string);
