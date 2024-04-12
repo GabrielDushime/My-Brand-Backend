@@ -20,7 +20,9 @@ app.use(express.json());
 
 app.use(bodyParser.json());
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://my-brand-gabriels-portifolio.netlify.app' 
+}));
 
 
 mongoose.connect(process.env.database_connection as string);
