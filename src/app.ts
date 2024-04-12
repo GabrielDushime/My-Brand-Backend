@@ -41,7 +41,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/message', messageRoutes);
+app.use('/api/message', messageRoutes, cors());
 app.use('/api/blog', blogRoutes);
 app.get('/api/comments', getAllComments);
 
