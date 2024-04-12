@@ -41,9 +41,15 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/message', messageRoutes, cors());
 app.use('/api/blog', blogRoutes);
 app.get('/api/comments', getAllComments);
+app.options('/api/message', (req, res) => {
+  
+  res.setHeader('Access-Control-Allow-Origin', 'https://my-brand-gabriels-portifolio.netlify.app');
+  res.setHeader('Access-Control-Allow-Methods', 'POST'); 
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
+  res.status(204).end(); 
+});
 
 app.get('/', (req, res) => {
   res.send('Welcome to my Brand Gabriel!');
