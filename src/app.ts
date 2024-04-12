@@ -16,7 +16,9 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://my-brand-gabriels-portifolio.netlify.app'
+}));
 
 
 mongoose.connect(process.env.database_connection as string);
