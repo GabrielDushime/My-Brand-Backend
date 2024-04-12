@@ -10,15 +10,17 @@ import { getAllComments } from './controllers/blogController';
 import { createMasterAdmin } from './controllers/adminController'; 
 import dotenv from 'dotenv';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
-app.use(cors({
-  origin: 'https://my-brand-gabriels-portifolio.netlify.app'
-}));
+
+app.use(bodyParser.json());
+
+app.use(cors());
 
 
 mongoose.connect(process.env.database_connection as string);
@@ -41,15 +43,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/message', messageRoutes);
 app.use('/api/blog', blogRoutes);
 app.get('/api/comments', getAllComments);
-app.options('/api/message', (req, res) => {
-  
-  res.setHeader('Access-Control-Allow-Origin', 'https://my-brand-gabriels-portifolio.netlify.app');
-  res.setHeader('Access-Control-Allow-Methods', 'POST'); 
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
-  res.status(204).end(); 
-});
 
 app.get('/', (req, res) => {
   res.send('Welcome to my Brand Gabriel!');
