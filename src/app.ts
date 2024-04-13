@@ -17,11 +17,12 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(cors());
+
 // Middleware
-app.use(bodyParser.json());
-app.use(cors({
-  origin: 'https://my-brand-gabriels-portifolio.netlify.app'
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
 mongoose.connect(process.env.database_connection as string);
 
 const db = mongoose.connection;
@@ -42,7 +43,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
+
+app.options('/api/message', cors());
 app.use('/api/message', messageRoutes);
+
 app.use('/api/blog', blogRoutes);
 app.get('/api/comments', getAllComments);
 
