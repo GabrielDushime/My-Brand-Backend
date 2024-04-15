@@ -26,7 +26,7 @@ export const userSignup = async (req: Request, res: Response) => {
     console.error('Signup failed:', error);
     res.status(500).json({ message: 'Signup failed', error: error.message }); // Return error message
   }
-};  
+};
 export const userSignin = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
