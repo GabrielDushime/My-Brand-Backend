@@ -18,7 +18,8 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: 'https://my-brand-gabriel-frontend.netlify.app',
+  origin: 'https://main--my-brand-gabriels-portifolio.netlify.app',
+
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
   allowedHeaders: ['Content-Type', 'Authorization'] 
 }));
