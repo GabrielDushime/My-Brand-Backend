@@ -17,11 +17,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors({
-  origin: 'https://main--my-brand-gabriels-portifolio.netlify.app',
-  methods: ['GET', 'POST'], // Add other methods as needed
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+app.use(cors());
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,7 +41,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 // Routes
-app.use('/api/user', userRoutes, cors());
+app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
 
 app.options('/api/message', cors());
