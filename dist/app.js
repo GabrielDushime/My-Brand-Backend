@@ -17,14 +17,13 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_json_1 = __importDefault(require("./swagger.json"));
-const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
 const messageRoutes_1 = __importDefault(require("./routes/messageRoutes"));
 const blogRoutes_1 = __importDefault(require("./routes/blogRoutes"));
 const blogController_1 = require("./controllers/blogController");
-const adminController_1 = require("./controllers/adminController");
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const setupAdminCredentials_1 = require("./setupAdminCredentials");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -35,7 +34,7 @@ mongoose_1.default.connect(process.env.database_connection);
 const db = mongoose_1.default.connection;
 db.once('open', () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Connected to MongoDB');
-    yield (0, adminController_1.createMasterAdmin)();
+    (0, setupAdminCredentials_1.addAdminCredentials)();
 }));
 db.on('error', (err) => {
     console.error('MongoDB connection error:', err);
@@ -44,7 +43,6 @@ db.on('error', (err) => {
 app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
 // Routes
 app.use('/api/user', userRoutes_1.default);
-app.use('/api/admin', adminRoutes_1.default);
 app.options('/api/message');
 app.use('/api/message', messageRoutes_1.default);
 app.use('/api/blog', blogRoutes_1.default);

@@ -3,14 +3,15 @@ import mongoose from 'mongoose';
 import userRoutes from './routes/userRoutes';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger.json'; 
-import adminRoutes from './routes/adminRoutes';
+
 import messageRoutes from './routes/messageRoutes';
 import blogRoutes from './routes/blogRoutes';
 import { getAllComments } from './controllers/blogController';
-import { createMasterAdmin } from './controllers/adminController'; 
+
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import { addAdminCredentials } from './setupAdminCredentials';
 
 dotenv.config();
 
@@ -29,7 +30,8 @@ const db = mongoose.connection;
 
 db.once('open', async () => { 
   console.log('Connected to MongoDB');
-  await createMasterAdmin(); 
+  addAdminCredentials();
+ 
 });
 
 db.on('error', (err) => {
@@ -42,7 +44,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use('/api/user', userRoutes);
-app.use('/api/admin', adminRoutes);
+
+
+
 
 app.options('/api/message');
 app.use('/api/message', messageRoutes);

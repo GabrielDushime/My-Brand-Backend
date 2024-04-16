@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
-import Admin from '../models/Admin';
+
 
 export const userSignup = async (req: Request, res: Response) => {
   try {
@@ -20,7 +20,8 @@ export const userSignup = async (req: Request, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ firstName, lastName, email, password: hashedPassword });
+    const user = new User({ firstName, lastName, email, password: hashedPassword, role: 'user' });
+
     await user.save();
     res.status(201).json({ message: 'User created successfully' });
   } catch (error:any) {
@@ -30,42 +31,40 @@ export const userSignup = async (req: Request, res: Response) => {
 };
 export const userSignin = async (req: Request, res: Response) => {
   try {
-     const { email, password } = req.body;
- 
-   
-     const user = await User.findOne({ email });
-     const admin = await Admin.findOne({ email }); 
- 
+      const { email, password } = req.body;
+      
      
-     if (!user && !admin) {
-       return res.status(404).json({ message: 'User not found' });
-     }
- 
-   
-     let passwordMatch = false;
-     if (user) {
-       passwordMatch = await bcrypt.compare(password, user.password);
-     } else if (admin) {
-       passwordMatch = await bcrypt.compare(password, admin.password);
-     }
- 
-     if (!passwordMatch) {
-       return res.status(401).json({ message: 'Invalid credentials' });
-     }
- 
+      const user = await User.findOne({ email });
+
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      let passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (!passwordMatch) {
+          return res.status(401).json({ message: 'Invalid credentials' });
+      }
+
     
-     const token = jwt.sign({ userId: user ? user._id : admin?._id, isAdmin: !!admin }, 'your_secret_key', { expiresIn: '1h' });
- 
-     
-     if (admin) {
-       res.redirect('http://127.0.0.1:5502/Admin-Dashboard/Other-Pages/Dashboard.html');
-     } else {
-       res.redirect('http://127.0.0.1:5502/Home.html');
-     }
+      if (user.role === 'admin' && email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+        
+          const token = jwt.sign({ userId: user._id, isAdmin: true }, 'your_secret_key', { expiresIn: '1h' });
+          return res.json({ token, isAdmin: true });
+      } else if (user.role !== 'admin') {
+      
+          const token = jwt.sign({ userId: user._id, isAdmin: false }, 'your_secret_key', { expiresIn: '1h' });
+          return res.json({ token, isAdmin: false });
+      } else {
+          return res.status(401).json({ message: 'Invalid credentials' });
+      }
   } catch (error) {
-     res.status(500).json({ message: 'Login failed', error });
+      console.error('Login failed:', error);
+      res.status(500).json({ message: 'Login failed', error });
   }
- };
+};
+
+
  
   
  
