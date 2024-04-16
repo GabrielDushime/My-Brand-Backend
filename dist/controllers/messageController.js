@@ -18,6 +18,7 @@ const Message_1 = __importDefault(require("../models/Message"));
 const createMessage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, email, message } = req.body;
+        console.log('Received data:', req.body);
         const newMessage = new Message_1.default({
             username,
             email,

@@ -44,7 +44,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
 
-app.options('/api/message', cors());
+app.options('/api/message');
 app.use('/api/message', messageRoutes);
 
 app.use('/api/blog', blogRoutes);

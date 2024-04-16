@@ -34,7 +34,8 @@ const userSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(201).json({ message: 'User created successfully' });
     }
     catch (error) {
-        res.status(500).json({ message: 'Signup failed', error });
+        console.error('Signup failed:', error);
+        res.status(500).json({ message: 'Signup failed', error: error.message }); // Return error message
     }
 });
 exports.userSignup = userSignup;
