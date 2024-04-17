@@ -40,7 +40,7 @@ const addAdminCredentials = () => __awaiter(void 0, void 0, void 0, function* ()
             console.log('Admin credentials saved in the database');
         }
         else {
-            console.log('Admin credentials already exist in the database');
+            console.log('Admin credentials already saved in the database');
         }
     }
     catch (error) {

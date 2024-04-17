@@ -40,25 +40,24 @@ exports.userSignup = userSignup;
 const userSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
+        // Find the user by email
         const user = yield User_1.default.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        let passwordMatch = yield bcryptjs_1.default.compare(password, user.password);
+        // Compare the provided password with the hashed password in the database
+        const passwordMatch = yield bcryptjs_1.default.compare(password, user.password);
         if (!passwordMatch) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
-        if (user.role === 'admin' && email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-            const token = jsonwebtoken_1.default.sign({ userId: user._id, isAdmin: true }, 'your_secret_key', { expiresIn: '1h' });
-            return res.json({ token, isAdmin: true });
+        // Check if JWT_SECRET is defined
+        if (!process.env.JWT_SECRET) {
+            throw new Error('JWT_SECRET must be defined');
         }
-        else if (user.role !== 'admin') {
-            const token = jsonwebtoken_1.default.sign({ userId: user._id, isAdmin: false }, 'your_secret_key', { expiresIn: '1h' });
-            return res.json({ token, isAdmin: false });
-        }
-        else {
-            return res.status(401).json({ message: 'Invalid credentials' });
-        }
+        // Generate JWT token
+        const token = jsonwebtoken_1.default.sign({ userId: user._id, isAdmin: user.role === 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // Send the token and isAdmin flag in the response
+        return res.json({ token, isAdmin: user.role === 'admin' });
     }
     catch (error) {
         console.error('Login failed:', error);
