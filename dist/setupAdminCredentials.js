@@ -37,7 +37,7 @@ const addAdminCredentials = () => __awaiter(void 0, void 0, void 0, function* ()
                 role: 'admin',
             });
             yield newAdmin.save();
-            console.log('Admin credentials saved in the database');
+            console.log('Admin credential saved in the database');
         }
         else {
             console.log('Admin credentials already saved in the database');

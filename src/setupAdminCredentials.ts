@@ -31,7 +31,7 @@ export const addAdminCredentials = async () => {
 
       await newAdmin.save();
 
-      console.log('Admin credentials saved in the database');
+      console.log('Admin credential saved in the database');
     } else {
       console.log('Admin credentials already saved in the database');
     }
