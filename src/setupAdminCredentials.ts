@@ -6,28 +6,19 @@ import User from './models/User';
 dotenv.config();
 
 
-let db: typeof mongoose;
-
-const connectDB = async () => {
- if (db) {
-    return db;
- }
-
- try {
-    const connection = await mongoose.connect('mongodb://localhost:27017/My-Brand-Backend');
-    console.log('MongoDB connected');
-    db = connection;
-    return db;
- } catch (error) {
+mongoose.connect('mongodb://localhost:27017/My-Brand-Backend', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+} as mongoose.ConnectOptions)
+  .then(() => console.log('MongoDB connected'))
+  .catch(error => {
     console.error('MongoDB connection error:', error);
-    throw error;
- }
-};
+    process.exit(1);
+  });
+
 
 export const addAdminCredentials = async () => {
- try {
-    await connectDB();
-
+  try {
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
     const adminFirstName = process.env.ADMIN_FIRST_NAME;
@@ -56,8 +47,8 @@ export const addAdminCredentials = async () => {
     } else {
       console.log('Admin credentials already exist in the database');
     }
- } catch (error) {
+  } catch (error) {
     console.error('Error adding admin credentials to the database:', error);
     throw error;
- }
+  }
 };
