@@ -33,7 +33,7 @@ export const addAdminCredentials = async () => {
 
       console.log('Admin credentials saved in the database');
     } else {
-      console.log('Admin credentials already exist in the database');
+      console.log('Admin credentials already saved in the database');
     }
  } catch (error) {
     console.error('Error adding admin credentials to the database:', error);

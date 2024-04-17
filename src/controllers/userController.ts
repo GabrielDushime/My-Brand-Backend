@@ -31,34 +31,37 @@ export const userSignup = async (req: Request, res: Response) => {
 };
 export const userSignin = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-    
-    // Find the user by email
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Compare the provided password with the hashed password in the database
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
-
-    // Generate JWT token
-    const token = jwt.sign({ userId: user._id, isAdmin: user.role === 'admin' }, 'D221016855@g', { expiresIn: '1h' });
-
-    // Send the token and isAdmin flag in the response
-    return res.json({ token, isAdmin: user.role === 'admin' });
+     const { email, password } = req.body;
+     
+     // Find the user by email
+     const user = await User.findOne({ email });
+ 
+     if (!user) {
+       return res.status(404).json({ message: 'User not found' });
+     }
+ 
+     // Compare the provided password with the hashed password in the database
+     const passwordMatch = await bcrypt.compare(password, user.password);
+ 
+     if (!passwordMatch) {
+       return res.status(401).json({ message: 'Invalid credentials' });
+     }
+ 
+     // Check if JWT_SECRET is defined
+     if (!process.env.JWT_SECRET) {
+       throw new Error('JWT_SECRET must be defined');
+     }
+ 
+     // Generate JWT token
+     const token = jwt.sign({ userId: user._id, isAdmin: user.role === 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+ 
+     // Send the token and isAdmin flag in the response
+     return res.json({ token, isAdmin: user.role === 'admin' });
   } catch (error) {
-    console.error('Login failed:', error);
-    res.status(500).json({ message: 'Login failed', error });
+     console.error('Login failed:', error);
+     res.status(500).json({ message: 'Login failed', error });
   }
-};
-
-
+ };
 
  
   
