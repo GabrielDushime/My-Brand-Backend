@@ -16,6 +16,8 @@ exports.getAllUsers = exports.updateUser = exports.deleteUser = exports.userSign
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importDefault(require("../models/User"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const userSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { firstName, lastName, email, password, confirmPassword } = req.body;
@@ -40,28 +42,28 @@ exports.userSignup = userSignup;
 const userSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
-        // Find the user by email
+        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+            const token = jsonwebtoken_1.default.sign({ role: 'admin' }, process.env.JWT_SECRET || '', {
+                expiresIn: '1h',
+            });
+            return res.status(200).json({ token, user: { role: 'admin' } });
+        }
         const user = yield User_1.default.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        // Compare the provided password with the hashed password in the database
-        const passwordMatch = yield bcryptjs_1.default.compare(password, user.password);
-        if (!passwordMatch) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+        const isPasswordValid = yield bcryptjs_1.default.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Invalid password' });
         }
-        // Check if JWT_SECRET is defined
-        if (!process.env.JWT_SECRET) {
-            throw new Error('JWT_SECRET must be defined');
-        }
-        // Generate JWT token
-        const token = jsonwebtoken_1.default.sign({ userId: user._id, isAdmin: user.role === 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        // Send the token and isAdmin flag in the response
-        return res.json({ token, isAdmin: user.role === 'admin' });
+        const token = jsonwebtoken_1.default.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET || '', {
+            expiresIn: '1h',
+        });
+        res.status(200).json({ token, user });
     }
     catch (error) {
-        console.error('Login failed:', error);
-        res.status(500).json({ message: 'Login failed', error });
+        console.error('Signin failed:', error);
+        res.status(500).json({ message: 'Signin failed', error: error.message });
     }
 });
 exports.userSignin = userSignin;
