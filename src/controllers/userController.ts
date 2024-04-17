@@ -31,38 +31,33 @@ export const userSignup = async (req: Request, res: Response) => {
 };
 export const userSignin = async (req: Request, res: Response) => {
   try {
-      const { email, password } = req.body;
-      
-     
-      const user = await User.findOne({ email });
-
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-      }
-
-      let passwordMatch = await bcrypt.compare(password, user.password);
-
-      if (!passwordMatch) {
-          return res.status(401).json({ message: 'Invalid credentials' });
-      }
-
+    const { email, password } = req.body;
     
-      if (user.role === 'admin' && email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-        
-          const token = jwt.sign({ userId: user._id, isAdmin: true }, 'your_secret_key', { expiresIn: '1h' });
-          return res.json({ token, isAdmin: true });
-      } else if (user.role !== 'admin') {
-      
-          const token = jwt.sign({ userId: user._id, isAdmin: false }, 'your_secret_key', { expiresIn: '1h' });
-          return res.json({ token, isAdmin: false });
-      } else {
-          return res.status(401).json({ message: 'Invalid credentials' });
-      }
+    // Find the user by email
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Compare the provided password with the hashed password in the database
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ userId: user._id, isAdmin: user.role === 'admin' }, 'D221016855@g', { expiresIn: '1h' });
+
+    // Send the token and isAdmin flag in the response
+    return res.json({ token, isAdmin: user.role === 'admin' });
   } catch (error) {
-      console.error('Login failed:', error);
-      res.status(500).json({ message: 'Login failed', error });
+    console.error('Login failed:', error);
+    res.status(500).json({ message: 'Login failed', error });
   }
 };
+
 
 
  
