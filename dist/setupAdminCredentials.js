@@ -15,28 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addAdminCredentials = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const mongoose_1 = __importDefault(require("mongoose"));
 const User_1 = __importDefault(require("./models/User"));
 dotenv_1.default.config();
-let db;
-const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    if (db) {
-        return db;
-    }
-    try {
-        const connection = yield mongoose_1.default.connect('mongodb://localhost:27017/My-Brand-Backend');
-        console.log('MongoDB connected');
-        db = connection;
-        return db;
-    }
-    catch (error) {
-        console.error('MongoDB connection error:', error);
-        throw error;
-    }
-});
 const addAdminCredentials = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield connectDB();
         const adminEmail = process.env.ADMIN_EMAIL;
         const adminPassword = process.env.ADMIN_PASSWORD;
         const adminFirstName = process.env.ADMIN_FIRST_NAME;

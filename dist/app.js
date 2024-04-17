@@ -34,7 +34,7 @@ mongoose_1.default.connect(process.env.database_connection);
 const db = mongoose_1.default.connection;
 db.once('open', () => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Connected to MongoDB');
-    (0, setupAdminCredentials_1.addAdminCredentials)();
+    yield (0, setupAdminCredentials_1.addAdminCredentials)();
 }));
 db.on('error', (err) => {
     console.error('MongoDB connection error:', err);

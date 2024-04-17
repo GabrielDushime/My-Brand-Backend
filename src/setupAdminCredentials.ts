@@ -1,24 +1,12 @@
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
-import User from './models/User';
+import User from './models/User'; 
 
 dotenv.config();
 
-
-mongoose.connect('mongodb://localhost:27017/My-Brand-Backend', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-} as mongoose.ConnectOptions)
-  .then(() => console.log('MongoDB connected'))
-  .catch(error => {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
-  });
-
-
 export const addAdminCredentials = async () => {
-  try {
+ try {
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
     const adminFirstName = process.env.ADMIN_FIRST_NAME;
@@ -47,8 +35,8 @@ export const addAdminCredentials = async () => {
     } else {
       console.log('Admin credentials already exist in the database');
     }
-  } catch (error) {
+ } catch (error) {
     console.error('Error adding admin credentials to the database:', error);
     throw error;
-  }
+ }
 };

@@ -29,38 +29,31 @@ mongoose.connect(process.env.database_connection as string);
 const db = mongoose.connection;
 
 db.once('open', async () => { 
-  console.log('Connected to MongoDB');
-  addAdminCredentials();
- 
+ console.log('Connected to MongoDB');
+ await addAdminCredentials(); 
 });
 
 db.on('error', (err) => {
-  console.error('MongoDB connection error:', err);
+ console.error('MongoDB connection error:', err);
 });
 
 // Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-
 // Routes
 app.use('/api/user', userRoutes);
-
-
-
-
 app.options('/api/message');
 app.use('/api/message', messageRoutes);
-
 app.use('/api/blog', blogRoutes);
 app.get('/api/comments', getAllComments);
 
 app.get('/', (req, res) => {
-  res.send('Welcome to my Brand Gabriel!');
+ res.send('Welcome to my Brand Gabriel!');
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+ console.log(`Server is running on port ${PORT}`);
 });
 
 export default app;
