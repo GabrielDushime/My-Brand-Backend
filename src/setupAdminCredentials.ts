@@ -5,18 +5,27 @@ import User from './models/User';
 
 dotenv.config();
 
+
+let db: typeof mongoose;
+
 const connectDB = async () => {
-  try {
-    await mongoose.connect('mongodb://localhost:27017/My-Brand-Backend');
+ if (db) {
+    return db;
+ }
+
+ try {
+    const connection = await mongoose.connect('mongodb://localhost:27017/My-Brand-Backend');
     console.log('MongoDB connected');
-  } catch (error) {
+    db = connection;
+    return db;
+ } catch (error) {
     console.error('MongoDB connection error:', error);
     throw error;
-  }
+ }
 };
 
 export const addAdminCredentials = async () => {
-  try {
+ try {
     await connectDB();
 
     const adminEmail = process.env.ADMIN_EMAIL;
@@ -45,12 +54,10 @@ export const addAdminCredentials = async () => {
 
       console.log('Admin credentials saved in the database');
     } else {
-      console.log('Admin credentials saved in the database');
+      console.log('Admin credentials already exist in the database');
     }
-  } catch (error) {
+ } catch (error) {
     console.error('Error adding admin credentials to the database:', error);
     throw error;
-  }
+ }
 };
-
-

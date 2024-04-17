@@ -18,10 +18,16 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const User_1 = __importDefault(require("./models/User"));
 dotenv_1.default.config();
+let db;
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    if (db) {
+        return db;
+    }
     try {
-        yield mongoose_1.default.connect('mongodb://localhost:27017/My-Brand-Backend');
+        const connection = yield mongoose_1.default.connect('mongodb://localhost:27017/My-Brand-Backend');
         console.log('MongoDB connected');
+        db = connection;
+        return db;
     }
     catch (error) {
         console.error('MongoDB connection error:', error);
@@ -52,7 +58,7 @@ const addAdminCredentials = () => __awaiter(void 0, void 0, void 0, function* ()
             console.log('Admin credentials saved in the database');
         }
         else {
-            console.log('Admin credentials saved in the database');
+            console.log('Admin credentials already exist in the database');
         }
     }
     catch (error) {
