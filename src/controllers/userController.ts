@@ -16,7 +16,6 @@ export const userSignup = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Passwords do not match' });
     }
 
-    
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'Email already exists' });
@@ -74,11 +73,6 @@ export const userSignin = async (req: Request, res: Response) => {
   }
 };
 
-
- 
-  
- 
- 
 
 export const deleteUser = async (req: Request, res: Response) => {
   try {
