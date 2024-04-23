@@ -97,8 +97,10 @@ export const updateUser = async (req: Request, res: Response) => {
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find();
-    res.status(200).json(users);
+    const count = await User.countDocuments();
+    res.status(200).json({ users, count });
   } catch (error) {
+    console.error('Failed to get users:', error);
     res.status(500).json({ message: 'Failed to get users', error });
   }
 };

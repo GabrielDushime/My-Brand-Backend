@@ -47,6 +47,9 @@ app.use('/api/message', messageRoutes);
 app.use('/api/blog', blogRoutes);
 app.get('/api/comments', getAllComments);
 
+
+
+
 app.get('/', (req, res) => {
  res.send('Welcome to my Brand Gabriel!');
 });

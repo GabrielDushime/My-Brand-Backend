@@ -14,10 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteComment = exports.getAllComments = exports.getAllBlogs = exports.getCommentsForBlog = exports.dislikeBlog = exports.likeBlog = exports.commentOnBlog = exports.getBlogById = exports.deleteBlog = exports.updateBlog = exports.createBlog = void 0;
 const Blog_1 = __importDefault(require("../models/Blog"));
+const fs_1 = __importDefault(require("fs"));
 // Function to create a new blog
 const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, description, image } = req.body;
+        const { title, description } = req.body;
+        const image = req.file ? fs_1.default.readFileSync(req.file.path) : undefined; // Read image file as Buffer
+        // Delete temporary image file after reading
+        if (req.file) {
+            fs_1.default.unlinkSync(req.file.path);
+        }
         const newBlog = new Blog_1.default({
             title,
             description,

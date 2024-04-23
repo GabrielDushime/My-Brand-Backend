@@ -9,4 +9,5 @@ userRoutes.delete('/:userId', deleteUser);
 userRoutes.put('/:userId', updateUser);
 userRoutes.get('/', getAllUsers);
 
+
 export default userRoutes;

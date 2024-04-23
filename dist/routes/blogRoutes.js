@@ -5,9 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const blogController_1 = require("../controllers/blogController");
+const multer_1 = __importDefault(require("multer"));
 const blogRoutes = express_1.default.Router();
+const upload = (0, multer_1.default)({ dest: 'uploads/' });
 // Blog routes
-blogRoutes.post('/', blogController_1.createBlog);
+blogRoutes.post('/', upload.single('image'), blogController_1.createBlog);
 blogRoutes.put('/:id', blogController_1.updateBlog);
 blogRoutes.delete('/:id', blogController_1.deleteBlog);
 blogRoutes.get('/:id', blogController_1.getBlogById);

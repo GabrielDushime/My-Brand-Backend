@@ -1,10 +1,11 @@
 import express from 'express';
 import { createBlog, updateBlog, deleteBlog, getBlogById, commentOnBlog, likeBlog, dislikeBlog, getCommentsForBlog, getAllBlogs, getAllComments, deleteComment } from '../controllers/blogController';
+import multer from 'multer';
 
 const blogRoutes = express.Router();
-
+const upload = multer({ dest: 'uploads/' });
 // Blog routes
-blogRoutes.post('/', createBlog);
+blogRoutes.post('/', upload.single('image'), createBlog);
 blogRoutes.put('/:id', updateBlog);
 blogRoutes.delete('/:id', deleteBlog);
 blogRoutes.get('/:id', getBlogById);

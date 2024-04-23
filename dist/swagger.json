@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "https://my-brand-backend-heoy.onrender.com",
+            "url": "//localhost:3000",
             "description": "Gabriel's Brand server"
         }
     ],
@@ -287,7 +287,7 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
@@ -303,8 +303,8 @@
                                     },
                                     "image": {
                                         "type": "string",
-                                        "description": "URL of the blog image",
-                                        "example": "https://example.com/image.jpg"
+                                        "format": "binary",
+                                        "description": "Image file of the blog"
                                     }
                                 },
                                 "required": ["title", "description", "image"]

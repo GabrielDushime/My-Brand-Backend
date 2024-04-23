@@ -1,24 +1,33 @@
 import { Request, Response } from 'express';
 import BlogPost, { IBlogPost,IComment } from '../models/Blog';
+import fs from 'fs';
 
 // Function to create a new blog
 export const createBlog = async (req: Request, res: Response) => {
   try {
-    const { title, description, image } = req.body;
-    const newBlog: IBlogPost = new BlogPost({
-      title,
-      description,
-      image,
-      creationDate: new Date(),
-      comments: [],
-      likes: 0,
-      dislikes: 0
-    });
-    await newBlog.save();
-    res.status(201).json(newBlog);
+      const { title, description } = req.body;
+      const image = req.file ? fs.readFileSync(req.file.path) : undefined; // Read image file as Buffer
+
+      // Delete temporary image file after reading
+      if (req.file) {
+          fs.unlinkSync(req.file.path);
+      }
+
+      const newBlog: IBlogPost = new BlogPost({
+          title,
+          description,
+          image,
+          creationDate: new Date(),
+          comments: [],
+          likes: 0,
+          dislikes: 0
+      });
+
+      await newBlog.save();
+      res.status(201).json(newBlog);
   } catch (error) {
-    console.error('Error creating blog:', error);
-    res.status(500).json({ message: 'Internal server error' });
+      console.error('Error creating blog:', error);
+      res.status(500).json({ message: 'Internal server error' });
   }
 };
 
