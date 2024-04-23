@@ -25,7 +25,7 @@
     "paths": {
       "/api/user/signup": {
         "post": {
-          "summary": "Sign up a new user",
+          "summary": "Sign up a new users",
           "tags": ["User-Authentication"],
           "requestBody": {
             "required": true,

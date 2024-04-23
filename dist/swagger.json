@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "//localhost:3000",
+            "url": "https://my-brand-backend-heoy.onrender.com",
             "description": "Gabriel's Brand server"
         }
     ],
@@ -23,7 +23,7 @@
     "paths": {
         "/api/user/signup": {
             "post": {
-                "summary": "Sign up a new user",
+                "summary": "Sign up a new users",
                 "tags": ["User-Authentication"],
                 "requestBody": {
                     "required": true,

@@ -92,9 +92,11 @@ exports.updateUser = updateUser;
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield User_1.default.find();
-        res.status(200).json(users);
+        const count = yield User_1.default.countDocuments();
+        res.status(200).json({ users, count });
     }
     catch (error) {
+        console.error('Failed to get users:', error);
         res.status(500).json({ message: 'Failed to get users', error });
     }
 });
