@@ -4,7 +4,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IBlogPost extends Document {
   title: string;
   description: string;
-  image: Buffer;
+  image: string;
   creationDate: Date;
   comments: IComment[];
   likes: number;
@@ -28,7 +28,7 @@ const CommentSchema: Schema = new Schema({
 const BlogPostSchema: Schema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  image: { type:Buffer, required: true },
+  image: { type:String, required: true },
   creationDate: { type: Date, default: Date.now },
   comments: [CommentSchema],
   likes: { type: Number, default: 0 },

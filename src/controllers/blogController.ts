@@ -1,35 +1,55 @@
 import { Request, Response } from 'express';
 import BlogPost, { IBlogPost,IComment } from '../models/Blog';
 import fs from 'fs';
+import cloudinary from 'cloudinary';
+import dotenv from 'dotenv';
+dotenv.config();
+
+// Configure Cloudinary
+cloudinary.v2.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret:process.env.api_secret
+});
 
 // Function to create a new blog
 export const createBlog = async (req: Request, res: Response) => {
   try {
-      const { title, description } = req.body;
-      const image = req.file ? fs.readFileSync(req.file.path) : undefined; // Read image file as Buffer
+    const { title, description } = req.body;
+    const image = req.file ? req.file.path : undefined; 
 
-      // Delete temporary image file after reading
-      if (req.file) {
-          fs.unlinkSync(req.file.path);
-      }
+    // Upload image to Cloudinary
+    let cloudinaryResponse;
+    if (image) {
+      cloudinaryResponse = await cloudinary.v2.uploader.upload(image);
+     
+      fs.unlinkSync(image);
+    }
 
-      const newBlog: IBlogPost = new BlogPost({
-          title,
-          description,
-          image,
-          creationDate: new Date(),
-          comments: [],
-          likes: 0,
-          dislikes: 0
-      });
+    const newBlogData: Partial<IBlogPost> = {
+      title,
+      description,
+      creationDate: new Date(),
+      comments: [],
+      likes: 0,
+      dislikes: 0
+    };
 
-      await newBlog.save();
-      res.status(201).json(newBlog);
+    // If image was uploaded to Cloudinary, store its URL in the database
+    if (cloudinaryResponse) {
+      newBlogData.image = cloudinaryResponse.secure_url;
+    }
+
+    const newBlog: IBlogPost = new BlogPost(newBlogData);
+
+    await newBlog.save();
+    res.status(201).json(newBlog);
   } catch (error) {
-      console.error('Error creating blog:', error);
-      res.status(500).json({ message: 'Internal server error' });
+    console.error('Error creating blog:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 // Function to update an existing blog
 export const updateBlog = async (req: Request, res: Response) => {

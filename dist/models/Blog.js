@@ -33,7 +33,7 @@ const CommentSchema = new mongoose_1.Schema({
 const BlogPostSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    image: { type: Buffer, required: true },
+    image: { type: String, required: true },
     creationDate: { type: Date, default: Date.now },
     comments: [CommentSchema],
     likes: { type: Number, default: 0 },

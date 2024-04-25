@@ -15,24 +15,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteComment = exports.getAllComments = exports.getAllBlogs = exports.getCommentsForBlog = exports.dislikeBlog = exports.likeBlog = exports.commentOnBlog = exports.getBlogById = exports.deleteBlog = exports.updateBlog = exports.createBlog = void 0;
 const Blog_1 = __importDefault(require("../models/Blog"));
 const fs_1 = __importDefault(require("fs"));
+const cloudinary_1 = __importDefault(require("cloudinary"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+// Configure Cloudinary
+cloudinary_1.default.v2.config({
+    cloud_name: process.env.cloud_name,
+    api_key: process.env.api_key,
+    api_secret: process.env.api_secret
+});
 // Function to create a new blog
 const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { title, description } = req.body;
-        const image = req.file ? fs_1.default.readFileSync(req.file.path) : undefined; // Read image file as Buffer
-        // Delete temporary image file after reading
-        if (req.file) {
-            fs_1.default.unlinkSync(req.file.path);
+        const image = req.file ? req.file.path : undefined;
+        // Upload image to Cloudinary
+        let cloudinaryResponse;
+        if (image) {
+            cloudinaryResponse = yield cloudinary_1.default.v2.uploader.upload(image);
+            fs_1.default.unlinkSync(image);
         }
-        const newBlog = new Blog_1.default({
+        const newBlogData = {
             title,
             description,
-            image,
             creationDate: new Date(),
             comments: [],
             likes: 0,
             dislikes: 0
-        });
+        };
+        // If image was uploaded to Cloudinary, store its URL in the database
+        if (cloudinaryResponse) {
+            newBlogData.image = cloudinaryResponse.secure_url;
+        }
+        const newBlog = new Blog_1.default(newBlogData);
         yield newBlog.save();
         res.status(201).json(newBlog);
     }
